@@ -8,9 +8,12 @@ export const productValidator = [
     body("description")
         .trim()
         .notEmpty().withMessage("Description is required"),
-    body("image")
+    body("imageCover")
         .trim()
-        .notEmpty().withMessage("Image is required"),
+        .notEmpty().withMessage("Image cover is required"),
+    body("images")
+        .optional()
+        .isArray().withMessage("Images must be an array"),
     body("price")
         .notEmpty().withMessage("Price is required")
         .isFloat({ min: 1 }).withMessage("Price must be at least 1"),

@@ -66,7 +66,10 @@ router.post('/add',
     isAuthorized(Role.Admin),
     productValidator,
     handleValidationErrors,
-    upload.single("image"),
+    upload.fields([
+    { name: 'imageCover', maxCount: 1 },
+    { name: 'images', maxCount: 10 },
+]),
     addProduct
 );
 
