@@ -17,7 +17,7 @@ export const getOrderById: RequestHandler<{ id: string }> = async (req, res) => 
             return res.status(404).json({ message: "Order not found" });
         }
 
-        if (req.user!.role !== "admin" && order.userID._id.toString() !== req.user!.id) {
+        if (req.user?.role !== "admin" && order.userID._id.toString() !== req.user?.id) {
             return res.status(403).json({ message: "Forbidden: You are not allowed to view this order" });
         }
 

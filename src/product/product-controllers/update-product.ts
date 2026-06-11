@@ -24,20 +24,25 @@ export const updateProduct: RequestHandler<{ id: string }, IResponse, IRequest> 
                 message: "Invalid product id format"
             });
         }
-        const product = await Product.findByIdAndUpdate(
-            req.params.id, req.body,
-            { new: true }
-        )
+        const updateData = { ...req.body };
+        if (req.file?.path) {
+    updateData.image = req.file.path;
+}
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            updateData, 
+            { new: true })
             .populate("categoryID", "name")
             .lean();
-        if (!product) {
+        if (!updatedProduct) {
             return res.status(404).json({
                 message: "Product not found"
             });
         }
         res.status(200).json({
             message: "Product updated successfully",
-            data: product
+            data: updatedProduct
         })
     } catch (error) {
         console.error(error);

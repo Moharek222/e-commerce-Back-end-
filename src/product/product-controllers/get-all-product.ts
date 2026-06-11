@@ -8,6 +8,14 @@ export const getAllProducts: RequestHandler = async (req, res, next) => {
         const limit = Number(req.query.limit) || 10;
 
         const filterObj: any = {};
+
+        if (req.query.keyword) {
+            filterObj.name = {
+                $regex: req.query.keyword as string,
+                $options: "i", // case-insensitive (note it mohamed)
+            };
+        }
+
         if (req.query.categoryID) {
             if (!mongoose.Types.ObjectId.isValid(req.query.categoryID as string)) {
                 return res.status(400).json({ message: "Invalid category ID format" });

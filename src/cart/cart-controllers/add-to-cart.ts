@@ -30,7 +30,7 @@ interface IResponse {
 
 export const addToCart: RequestHandler<{}, IResponse, IRequest> = async (req,res) => {
     try {
-        const userID = req.user!.id;
+        const userID = req.user?.id;
 
         const { productID, quantity } = req.body;
 

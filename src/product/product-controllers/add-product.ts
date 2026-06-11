@@ -17,7 +17,31 @@ interface IResponse {
 }
 export const addProduct: RequestHandler<{}, IResponse, IRequest> = async (req, res) => {
     try {
-        const product = await Product.create(req.body);
+        const {name,description ,image ,price, quantity, categoryID}=req.body;
+        const userID=req.user?.id
+        if (!userID) {
+            return res.status(401).json({ message: "Unauthorized: Admin ID not found" });
+        }
+        const existingProduct = await Product.findOne({ name });
+                if (existingProduct) {
+                    return res.status(400).json({ 
+                        message: "Product name already exists" 
+                    });
+                }
+                const imageUrl = req.file?.path; 
+
+        if (!imageUrl) {
+            return res.status(400).json({ message: "Image is required" });
+        }
+
+        const product = await Product.create({
+            name,
+            description,
+            image: imageUrl,
+            price,
+            quantity,
+            categoryID ,
+            userID});
         return res.status(201).json({
             message: "Product created successfully",
             data: product

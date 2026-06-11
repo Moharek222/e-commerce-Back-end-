@@ -31,21 +31,24 @@ interface IRegisterBody {
         email: string;
         password: string;
         address: IAddress;
+        profileImage?: string
 }
 
-export const registerHandler: RequestHandler<{},{},IRegisterBody> = async (req, res, next) => {
+export const registerHandler: RequestHandler<{}, {}, IRegisterBody> = async (req, res, next) => {
         try {
                 const { email, password, name, address } = req.body;
+                const profileImage = req.file?.path ||
+                "https://res.cloudinary.com/your-cloud-name/image/upload/v1234567/default-avatar.png";
 
                 const user = await User.findOne({ email }).exec();
                 if (user) return res.status(409).json({ message: "Email already registered" });
 
                 const hashed = await bcrypt.hash(password, 10);
-                const newUser = new User({ email, password: hashed, name, address });
+                const newUser = new User({ email, password: hashed, name, address,profileImage });
                 await newUser.save();
 
                 const token = jwtService.createToken(
-                        { id: newUser._id, email: newUser.email },
+                        { id: newUser._id, email: newUser.email, role: newUser.role },
                         { expiresIn: "3d" }
                 );
                 await emailService.sendEmailVerificationLink(newUser.email, token);
@@ -53,8 +56,8 @@ export const registerHandler: RequestHandler<{},{},IRegisterBody> = async (req, 
                 const userObj = newUser.toObject();
                 const { password: _, ...userWithoutPassword } = userObj;
 
-                return res.status(201).json({ 
-                        message: "Register successful. Please check your email to verify your account.", 
+                return res.status(201).json({
+                        message: "Register successful. Please check your email to verify your account.",
                         user: userWithoutPassword
                 });
         } catch (err) {

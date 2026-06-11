@@ -9,17 +9,80 @@ import { deleteProduct } from "./product-controllers/delete-product";
 import { isAuthenticated } from "../middlewares/isAuthenticated.middleware";
 import { isAuthorized } from "../middlewares/isAuthorized.middleware";
 import { Role } from "../user/user-model";
+import { upload } from "../middlewares/upload.middleware";
 
+const router = Router();
 
-const router= Router();
+/**
+ * @swagger
+ * /api/product:
+ * get:
+ * summary: Get all products
+ * description: Retrieve a list of products with optional filtering, search, and pagination.
+ * tags: [Products]
+ * security:
+ * - bearerAuth: []
+ * parameters:
+ * - in: query
+ * name: page
+ * schema:
+ * type: integer
+ * default: 1
+ * description: Page number for pagination
+ * - in: query
+ * name: limit
+ * schema:
+ * type: integer
+ * default: 10
+ * description: Number of items per page
+ * - in: query
+ * name: keyword
+ * schema:
+ * type: string
+ * description: Search keyword for product name
+ * - in: query
+ * name: categoryID
+ * schema:
+ * type: string
+ * description: Filter by specific category ID
+ * responses:
+ * 200:
+ * description: Products fetched successfully
+ * 500:
+ * description: Internal server error
+ */
+router.get('/',
+    isAuthenticated,
+    getAllProducts
+);
 
-router.get('/',isAuthenticated,getAllProducts)
-router.get('/:id',isAuthenticated,getProductById)
-router.post('/add',isAuthenticated,isAuthorized(Role.Admin),productValidator,handleValidationErrors,addProduct)
-router.put('/:id',isAuthenticated,isAuthorized(Role.Admin),productValidator,handleValidationErrors,updateProduct)
-router.delete('/:id',isAuthenticated,isAuthorized(Role.Admin),deleteProduct)
+router.get('/:id',
+    isAuthenticated,
+    getProductById
+);
 
+router.post('/add',
+    isAuthenticated,
+    isAuthorized(Role.Admin),
+    productValidator,
+    handleValidationErrors,
+    upload.single("image"),
+    addProduct
+);
 
+router.put('/:id',
+    isAuthenticated,
+    isAuthorized(Role.Admin),
+    productValidator,
+    handleValidationErrors,
+    upload.single("image"),
+    updateProduct
+);
 
+router.delete('/:id',
+    isAuthenticated,
+    isAuthorized(Role.Admin),
+    deleteProduct
+);
 
-export default router
+export default router;

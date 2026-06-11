@@ -7,7 +7,7 @@ try{
     const userId=req.user!.id
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
-    const orders=await Order.find({userID:userId})
+    const orders=await Order.find({userID:userId}).populate("userID","name email")
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({createdAt:-1})

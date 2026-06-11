@@ -14,10 +14,11 @@ export interface IUser extends mongoose.Document {
     email: string;
     password: string;
     address: IAddress;
+    profileImage?: string;
     isVerified: boolean;
     role: Role;
-    googleId?: string;
-    picture?: string;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -33,9 +34,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     },
     password: {
         type: String,
-        required: function (this: IUser) {
-            return !this.googleId;
-        }
+        required: [true, "Password is required"]
     },
     address: {
         street: { type: String, required: true },
@@ -51,14 +50,12 @@ const UserSchema = new mongoose.Schema<IUser>({
         enum: Object.values(Role), //== [Role.User, Role.Admin]
         default: Role.User
     },
-    googleId: {
-        type: String,
-        sparse: true,
-        unique: true
-    },
-    picture: {
-        type: String
-    }
+    profileImage: {
+    type: String,
+    default: "https://default-avatar-url.com/avatar.png" 
+},
+    passwordResetToken: String,
+    passwordResetExpires: Date
 }, {
     timestamps: true
 });
