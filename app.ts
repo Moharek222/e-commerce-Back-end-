@@ -13,11 +13,11 @@ import reviewRouter from './src/review/review-router';
 import orderRouter from './src/order/order-router';
 import paymentRouter from './src/payment/payment-router';
 import { stripeWebhook } from './src/payment/webhook-controller';
-import { setupSwagger } from './src/swagger';
+// import { setupSwagger } from './src/swagger';
 
 dotenv.config();
 const app = express();
-setupSwagger(app);
+// setupSwagger(app);
 const PORT = Number(process.env.PORT)|| 3000;
 const URI = process.env.DB_URL;
 const DB_NAME = process.env.DB_NAME;

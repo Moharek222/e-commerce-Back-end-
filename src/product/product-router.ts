@@ -64,12 +64,12 @@ router.get('/:id',
 router.post('/add',
     isAuthenticated,
     isAuthorized(Role.Admin),
+    upload.fields([
+        { name: 'imageCover', maxCount: 1 },
+        { name: 'images', maxCount: 10 },
+    ]),
     productValidator,
     handleValidationErrors,
-    upload.fields([
-    { name: 'imageCover', maxCount: 1 },
-    { name: 'images', maxCount: 10 },
-]),
     addProduct
 );
 
