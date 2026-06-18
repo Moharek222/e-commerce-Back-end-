@@ -52,12 +52,10 @@ const router = Router();
  * description: Internal server error
  */
 router.get('/',
-    isAuthenticated,
     getAllProducts
 );
 
 router.get('/:id',
-    isAuthenticated,
     getProductById
 );
 
