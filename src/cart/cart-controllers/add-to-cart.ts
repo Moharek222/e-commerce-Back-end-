@@ -40,6 +40,11 @@ export const addToCart: RequestHandler<{}, IResponse, IRequest> = async (req,res
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
+        if (quantity > product.quantity) {
+            return res.status(400).json({ 
+                message: `Only ${product.quantity} items available in stock` 
+            });
+        }
 
 
         let cart = await Cart.findOne({ userID });
