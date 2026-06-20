@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import mongoose from "mongoose";
 import { Cart } from "../cart-model";
 import { body } from "express-validator";
+import { Product } from "../../product/product-model";
 
 export const addToCartValidator = [
     body("productID")
@@ -34,9 +35,12 @@ export const addToCart: RequestHandler<{}, IResponse, IRequest> = async (req,res
 
         const { productID, quantity } = req.body;
 
-        if (!mongoose.Types.ObjectId.isValid(productID)) {
-            return res.status(400).json({ message: "Invalid Product ID format" });
+        const product = await Product.findById(productID);
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
         }
+
 
         let cart = await Cart.findOne({ userID });
 
