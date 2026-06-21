@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node  app.ts"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +43,7 @@
     "@types/multer": "^2.1.0",
     "@types/nodemailer": "^8.0.0",
     "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.8"
+    "@types/swagger-ui-express": "^4.1.8",
+    "tsx": "^4.22.4"
   }
 }
