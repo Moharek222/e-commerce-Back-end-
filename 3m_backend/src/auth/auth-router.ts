@@ -8,10 +8,13 @@ import { upload } from "../middlewares/upload.middleware";
 import { parseAddressBox } from "../middlewares/parse-address-box";
 import { resetPassword } from "./reset-password";
 import { forgotPassword } from "./forget-password";
+import { me } from "./me";
+import { isAuthenticated } from "../middlewares/isAuthenticated.middleware";
 
 
 const router = Router();
 
+router.get("/me",isAuthenticated, me);
 
 router.post('/register',
     upload.single('profileImage'),
