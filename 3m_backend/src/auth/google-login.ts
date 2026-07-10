@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { User } from "../user/user-model";
+import { User,Role } from "../user/user-model";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -37,7 +37,7 @@ export const googleLogin: RequestHandler = async (req, res) => {
                 name: name || "Google User",
                 email: email,
                 password: randomPassword,
-                role: "user" 
+                role: Role.User 
             });
         }
 

@@ -12,7 +12,7 @@ export const getAllProducts: RequestHandler = async (req, res, next) => {
         if (req.query.keyword) {
             filterObj.name = {
                 $regex: req.query.keyword as string,
-                $options: "i", // case-insensitive (note it mohamed)
+                $options: "i",
             };
         }
 
