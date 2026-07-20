@@ -12,26 +12,32 @@ import { Role } from "../user/user-model";
 
 const router = Router();
 
-router.get('/', isAuthenticated, isAuthorized(Role.Admin), getAllCategories);
-router.get('/:id', isAuthenticated, isAuthorized(Role.Admin), getCategoryById);
+router.get("/", getAllCategories);
+router.get("/:id", getCategoryById);
 
-router.post('/add', 
-    isAuthenticated, 
-    isAuthorized(Role.Admin), 
-    categoryValidator, 
-    handleValidationErrors, 
-    addCategory);
+router.post(
+  "/add",
+  isAuthenticated,
+  isAuthorized(Role.Admin),
+  categoryValidator,
+  handleValidationErrors,
+  addCategory,
+);
 
-router.put('/:id', 
-    isAuthenticated,
-    isAuthorized(Role.Admin), 
-    categoryValidator, 
-    handleValidationErrors, 
-    updateCategory);
+router.put(
+  "/:id",
+  isAuthenticated,
+  isAuthorized(Role.Admin),
+  categoryValidator,
+  handleValidationErrors,
+  updateCategory,
+);
 
-router.delete('/:id', 
-    isAuthenticated, 
-    isAuthorized(Role.Admin), 
-    deleteCategory);
+router.delete(
+  "/:id",
+  isAuthenticated,
+  isAuthorized(Role.Admin),
+  deleteCategory,
+);
 
 export default router;

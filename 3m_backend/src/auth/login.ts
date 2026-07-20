@@ -62,6 +62,7 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
                         message: "Logged in successfully",
                         user: userWithoutPassword
                 });
+                                
         } catch (err) {
                 next(err);
         }

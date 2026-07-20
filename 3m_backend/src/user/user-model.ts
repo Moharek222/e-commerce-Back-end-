@@ -12,7 +12,7 @@ export interface IAddress {
 export interface IUser extends mongoose.Document {
     name: string;
     email: string;
-    password: string;
+    password?: string;
     address: IAddress;
     profileImage?: string;
     isVerified: boolean;
@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     },
     password: {
         type: String,
-        required: [true, "Password is required"]
+        // required: [true, "Password is required"]
     },
     address: {
         street: { type: String, required: true },
