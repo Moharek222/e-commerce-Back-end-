@@ -13,7 +13,7 @@ interface IRequest {
     name: string,
     email: string,
     password: string,
-    address: IAddress
+    address?: IAddress
 }
 interface IResponse {
     message: string,

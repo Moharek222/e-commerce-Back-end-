@@ -13,7 +13,8 @@ export interface IUser extends mongoose.Document {
     name: string;
     email: string;
     password?: string;
-    address: IAddress;
+    address?: IAddress;
+    phone?: string;
     profileImage?: string;
     isVerified: boolean;
     role: Role;
@@ -34,12 +35,15 @@ const UserSchema = new mongoose.Schema<IUser>({
     },
     password: {
         type: String,
-        // required: [true, "Password is required"]
+        required: [true, "Password is required"]
     },
     address: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        country: { type: String, required: true }
+        street: { type: String},
+        city: { type: String  },
+        country: { type: String }
+    },
+    phone: {
+        type: String
     },
     isVerified: {
         type: Boolean,
@@ -47,7 +51,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     },
     role: {
         type: String,
-        enum: Object.values(Role), //== [Role.User, Role.Admin]
+        enum: Object.values(Role),
         default: Role.User
     },
     profileImage: {

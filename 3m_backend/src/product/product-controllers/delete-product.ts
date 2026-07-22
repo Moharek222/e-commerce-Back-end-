@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import { Product } from "../product-model";
 import mongoose from "mongoose";
 
-
 export const deleteProduct: RequestHandler<{ id: string }> = async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {

@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from 'path';
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
@@ -53,6 +54,10 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/review", reviewRouter);
 app.use("/api/payment", paymentRouter);
+
+app.get('/test-google', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'test-google.html'));
+});
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("Global Error Handler:", err);

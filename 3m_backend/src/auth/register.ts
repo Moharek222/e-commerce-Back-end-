@@ -64,3 +64,4 @@ export const registerHandler: RequestHandler<{}, {}, IRegisterBody> = async (req
                 next(err);
         }
 };
+
