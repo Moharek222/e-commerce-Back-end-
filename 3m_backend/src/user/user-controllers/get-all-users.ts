@@ -21,6 +21,7 @@ export const getAllUsers: RequestHandler = async (req, res) => {
             page,
             limit,
             total,
+            totalPages: Math.ceil(total / limit),
             data: users
         });
 

@@ -5,16 +5,17 @@ export enum Role {
     Admin = "admin",
 }
 export interface IAddress {
-    street: string;
-    city: string;
-    country: string;
+    street: string,
+    city: string,
+    country: string,
+    isDefault: boolean
 }
 export interface IUser extends mongoose.Document {
     name: string;
     email: string;
     password?: string;
-    address?: IAddress;
-    phone?: string;
+    address?: IAddress[];
+    phone?: string[];
     profileImage?: string;
     isVerified: boolean;
     role: Role;
@@ -37,13 +38,20 @@ const UserSchema = new mongoose.Schema<IUser>({
         type: String,
         required: [true, "Password is required"]
     },
-    address: {
-        street: { type: String},
-        city: { type: String  },
-        country: { type: String }
+    address:{
+        type: [
+            {
+                street: String,
+                city: String,
+                country: String,
+                isDefault: Boolean
+            }
+        ],
+        default: [],
     },
     phone: {
-        type: String
+        type: [String],
+        default: [],
     },
     isVerified: {
         type: Boolean,

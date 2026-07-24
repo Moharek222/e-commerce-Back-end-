@@ -12,6 +12,8 @@ import { completeUserInfo, completeUserInfoValidator } from "./user-controllers/
 import { isAuthorized } from "../middlewares/isAuthorized.middleware";
 import { Role } from "./user-model";
 import { updateUser, updateUserValidator } from "./user-controllers/update-user";
+import { addUserImage } from "./user-controllers/add-user-image";
+
 
 const router = Router();
 
@@ -28,7 +30,6 @@ router.get('/:id',
 router.post('/add',
     isAuthenticated,
     isAuthorized(Role.Admin),
-    upload.single('profileImage'),
     parseAddressBox,
     createUserValidator,
     handleValidationErrors,
@@ -47,6 +48,12 @@ router.put('/update',
     handleValidationErrors,
     updateUser
 );
+router.put('/profile-image',
+    isAuthenticated,
+    upload.single('profileImage'),
+    addUserImage
+);
+
 router.delete('/:id',
     isAuthenticated,
     isAuthorized(Role.Admin),

@@ -31,20 +31,17 @@ interface IRegisterBody {
         email: string;
         password: string;
         address: IAddress;
-        profileImage?: string
 }
 
 export const registerHandler: RequestHandler<{}, {}, IRegisterBody> = async (req, res, next) => {
         try {
                 const { email, password, name, address } = req.body;
-                const profileImage = req.file?.path ||
-                "https://res.cloudinary.com/your-cloud-name/image/upload/v1234567/default-avatar.png";
 
                 const user = await User.findOne({ email }).exec();
                 if (user) return res.status(409).json({ message: "Email already registered" });
 
                 const hashed = await bcrypt.hash(password, 10);
-                const newUser = new User({ email, password: hashed, name, address,profileImage });
+                const newUser = new User({ email, password: hashed, name, address });
                 await newUser.save();
 
                 const token = jwtService.createToken(

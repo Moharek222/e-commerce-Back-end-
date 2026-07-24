@@ -51,7 +51,6 @@ interface IAddress {
 }
 
 interface IRequest {
-    id: string;
     name?: string;
     email?: string;
     address?: IAddress;
